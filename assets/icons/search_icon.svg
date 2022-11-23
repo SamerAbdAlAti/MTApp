@@ -1,0 +1,7 @@
+<svg id="search_icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <g id="search_icon-2">
+        <circle id="Oval" cx="8" cy="8" r="8" transform="translate(5 5)" fill="none" stroke="#222" stroke-miterlimit="10" stroke-width="3"/>
+        <path id="Path_2" d="M0,0,6.185,6.292" transform="translate(18.601 18.459)" fill="none" stroke="#222" stroke-miterlimit="10" stroke-width="3"/>
+        <rect id="Rectangle_10" width="30" height="30" fill="#fff" opacity="0"/>
+    </g>
+</svg>
