@@ -1,14 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
-import 'package:movie/core/uteils/app_constance.dart';
-import 'package:movie/features/movie/domain/entities/movie.dart';
-import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
-import 'package:movie/features/movie/presentation/manager/enum/unum.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:size_builder/size_builder.dart';
 
+part of'now_playing_section.dart';
 class PopularSection extends StatelessWidget {
   const PopularSection({Key? key}) : super(key: key);
 
@@ -22,9 +13,15 @@ class PopularSection extends StatelessWidget {
         switch (stateTow.popularState) {
           case RequestsState.loading:
             {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xfff99f00),
+              return Center(
+                child: SizedBox(
+                  height: Scaling.S(400),
+                  width: Scaling.screenW,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xfff99f00),
+                    ),
+                  ),
                 ),
               );
             }
@@ -125,41 +122,71 @@ class PopularSection extends StatelessWidget {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: Scaling.S(4),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              model.voteAverage
-                                                  .toString()
-                                                  .substring(0, 1),
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    'SFProDisplay-Medium',
-                                                fontSize: Scaling.S(20),
-                                                color: const Color(0xffffffff),
-                                              ),
-                                              softWrap: false,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            model.voteAverage
+                                                .toString()
+                                                .substring(0, 1),
+                                            style: TextStyle(
+                                              fontFamily: 'SFProDisplay-Medium',
+                                              fontSize: Scaling.S(20),
+                                              color: const Color(0xffffffff),
                                             ),
-                                            Text(
-                                              '.${model.voteAverage.toString().substring(2, 3)}\n',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    'SFProDisplay-Regular',
-                                                fontSize: Scaling.S(10),
-                                                color: const Color(0xffffffff),
-                                              ),
-                                              softWrap: false,
+                                            softWrap: false,
+                                          ),
+                                          Text(
+                                            '.${model.voteAverage.toString().substring(2, 3)}\n',
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  'SFProDisplay-Regular',
+                                              fontSize: Scaling.S(10),
+                                              color: const Color(0xffffffff),
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                            softWrap: false,
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: Scaling.S(210),
+                                width: Scaling.S(140),
+                                child: Padding(
+                                  padding: EdgeInsets.all(Scaling.S(10)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Spacer(),
+                                      Text(
+                                        model.releaseDate,
+                                        style: TextStyle(
+                                          fontFamily: 'SFProDisplay-Regular',
+                                          fontSize: Scaling.S(12),
+                                          color: const Color(0xccffffff),
+                                        ),
+                                        softWrap: false,
+                                      ),
+                                      SizedBox(
+                                        height: Scaling.H(5),
+                                      ),
+                                      Text(
+                                        model.title,
+                                        style: TextStyle(
+                                          fontFamily: 'SFProDisplay-Bold',
+                                          fontSize: Scaling.S(12),
+                                          color: const Color(0xffffffff),
+                                        ),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),

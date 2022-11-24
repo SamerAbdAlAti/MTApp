@@ -1,12 +1,13 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_color.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
-import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
+import 'package:movie/features/movie/presentation/pages/pieces_compilation/pieces_compilation.dart';
 import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
 import 'package:size_builder/size_builder.dart';
+import 'package:status_bar_control/status_bar_control.dart';
 
 class OnBoardingScreen01 extends StatelessWidget {
   const OnBoardingScreen01({Key? key}) : super(key: key);
@@ -15,26 +16,12 @@ class OnBoardingScreen01 extends StatelessWidget {
   Widget build(BuildContext context) {
     Scaling.scaling(context);
     return BlocBuilder<UiBloc, UiState>(
+      buildWhen: (previous, current) =>
+          previous.currentIndex != current.currentIndex,
       builder: (context, state) {
         UiBloc bloc = UiBloc.get(context);
         print("build screen on boarding");
-        final List<OnBoardingScreenChange> onBoardingList = [
-          const OnBoardingScreenChange(
-            imagePath: 'assets/images/Bitmap.png',
-            title: "Get the first\nMovie &TV information",
-            currentIndex: 0,
-          ),
-          const OnBoardingScreenChange(
-            imagePath: 'assets/images/on_boarding_image_tow.png',
-            title: "Know the movie\nis not worth Watching",
-            currentIndex: 1,
-          ),
-          const OnBoardingScreenChange(
-            imagePath: 'assets/images/on_boarding_image_three.png',
-            title: "Real-time\nupdates movie Trailer",
-            currentIndex: 2,
-          ),
-        ];
+
         return Scaffold(
           backgroundColor: AppColor.onBoardingMainColor,
           body: Column(
@@ -46,12 +33,12 @@ class OnBoardingScreen01 extends StatelessWidget {
                     width: double.maxFinite,
                     child: PageView.builder(
                       controller: bloc.onBoardingController,
-                      itemCount: onBoardingList.length,
+                      itemCount: bloc.onBoardingList.length,
                       onPageChanged: (index) async {
                         context.read<UiBloc>().add(OnBoardingEvent(index));
                       },
                       itemBuilder: (context, index) =>
-                          buildOnBoarding(onBoardingList[index], index),
+                          buildOnBoarding(bloc.onBoardingList[index], index),
                     ),
                   ),
                   SizedBox(
@@ -65,7 +52,7 @@ class OnBoardingScreen01 extends StatelessWidget {
                             height: Scaling.H(436),
                           ),
                           Text(
-                            onBoardingList[state.currentIndex].title,
+                            bloc.onBoardingList[state.currentIndex].title,
                             style: TextStyle(
                               fontFamily: 'SFProDisplay-Bold',
                               fontSize: Scaling.S(30),
@@ -119,11 +106,21 @@ class OnBoardingScreen01 extends StatelessWidget {
                                           const Duration(milliseconds: 500),
                                       curve: Curves.easeIn);
                                 } else {
-                                  Navigator.of(context).push(
+                                  WidgetsFlutterBinding.ensureInitialized();
+
+                                  /// أظهر الStatus Bar
+                                  ///
+                                  ///
+
+                                  Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (_) =>
-                                              const MovieHomeScreen()),
-                                    );
+                                              const PiecesCompilation()),
+                                      (route) => false);
+                                  await StatusBarControl.setFullscreen(false);
+                                  await StatusBarControl.setStyle(
+                                    StatusBarStyle.DARK_CONTENT,
+                                  );
                                 }
                               },
                               child: state.currentIndex == 2
@@ -157,7 +154,7 @@ class OnBoardingScreen01 extends StatelessWidget {
                                         const Icon(
                                           Icons.arrow_forward,
                                           color: Colors.white,
-                                        )
+                                        ),
                                       ],
                                     ),
                             ),
@@ -177,21 +174,6 @@ class OnBoardingScreen01 extends StatelessWidget {
       },
     );
   }
-}
-
-class OnBoardingScreenChange extends Equatable {
-  final String imagePath;
-  final String title;
-  final int currentIndex;
-
-  const OnBoardingScreenChange({
-    required this.imagePath,
-    required this.title,
-    required this.currentIndex,
-  });
-
-  @override
-  List<Object> get props => [imagePath];
 }
 
 Widget buildOnBoarding(OnBoardingScreenChange model, index) => Stack(

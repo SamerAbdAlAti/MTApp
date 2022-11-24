@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
-import 'package:movie/features/movie/presentation/manager/enum/unum.dart';
-import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
-import 'package:size_builder/size_builder.dart';
+part of 'now_playing_section.dart';
 
 class TopRatedSection extends StatelessWidget {
   const TopRatedSection({Key? key}) : super(key: key);
@@ -21,18 +15,23 @@ class TopRatedSection extends StatelessWidget {
           builder: (context, stateTow) {
             Scaling.scaling(context);
             switch (stateTow.topRatedState) {
-
               case RequestsState.loading:
                 {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xfff99f00),
+                  return Center(
+                    child: SizedBox(
+                      height: Scaling.S(170),
+                      width: Scaling.screenW,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xfff99f00),
+                        ),
+                      ),
                     ),
                   );
                 }
               case RequestsState.loaded:
                 {
-                 return SizedBox(
+                  return SizedBox(
                     height: Scaling.S(170),
                     width: Scaling.screenW,
                     child: PageView.builder(
@@ -46,12 +45,10 @@ class TopRatedSection extends StatelessWidget {
                   );
                 }
               case RequestsState.error:
-
                 {
                   return Container();
                 }
             }
-
           },
         );
       },

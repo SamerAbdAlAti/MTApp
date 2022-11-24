@@ -9,7 +9,7 @@ class TopSectionSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     Scaling.scaling(context);
     return Padding(
-      padding: EdgeInsets.all(Scaling.W(20)).copyWith(top: Scaling.H(80)),
+      padding: EdgeInsets.all(Scaling.W(20)).copyWith(top: Scaling.H(40)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

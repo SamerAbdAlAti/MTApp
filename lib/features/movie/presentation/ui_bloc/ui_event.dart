@@ -15,3 +15,12 @@ class OnBoardingEvent extends UiEvent {
   @override
   List<Object> get props => [currentIndex];
 }
+
+class BottomNavigationBarCurrentIndexEvent extends UiEvent {
+  final int itemCurrentIndex;
+
+  const BottomNavigationBarCurrentIndexEvent(this.itemCurrentIndex);
+
+  @override
+  List<Object> get props => [itemCurrentIndex];
+}

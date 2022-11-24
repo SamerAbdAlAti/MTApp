@@ -1,9 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:movie/core/uteils/app_constance.dart';
+import 'package:movie/features/movie/domain/entities/movie.dart';
 import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
 import 'package:movie/features/movie/presentation/manager/enum/unum.dart';
-import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
+import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
+import 'package:movie/features/movie/presentation/pages/pieces_compilation/pieces_compilation.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:size_builder/size_builder.dart';
+
+import '../ui_bloc/ui_bloc.dart';
+
+part 'popular_section.dart';
+
+part 'top_rated_section.dart';
+
+part 'build_bottom_navigation_bar.dart';
 
 class NowPlayingSection extends StatelessWidget {
   const NowPlayingSection({Key? key}) : super(key: key);
@@ -16,12 +31,17 @@ class NowPlayingSection extends StatelessWidget {
       builder: (context, stateTow) {
         Scaling.scaling(context);
         switch (stateTow.nowPlayingState) {
-
           case RequestsState.loading:
             {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xfff99f00),
+              return Center(
+                child: SizedBox(
+                  height: Scaling.S(250),
+                  width: Scaling.screenW,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xfff99f00),
+                    ),
+                  ),
                 ),
               );
               // TODO: Handle this case.
