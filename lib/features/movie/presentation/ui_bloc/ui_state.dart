@@ -4,6 +4,7 @@ class UiState extends Equatable {
   final int currentIndex;
   final int bottomNavigationBarCurrentIndex;
 
+
   const UiState({
     this.currentIndex = 0,
     this.bottomNavigationBarCurrentIndex = 0,

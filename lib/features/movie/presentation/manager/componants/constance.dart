@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/core/uteils/app_constance.dart';
 import 'package:movie/features/movie/domain/entities/movie.dart';
-import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:size_builder/size_builder.dart';
 
@@ -93,23 +91,30 @@ Widget buildOnBoardingToHome(Movie model) => Stack(
       ],
     );
 
-Widget buildNowPlayingMovieList(Movie model) => Container(
+Widget buildNowPlayingMovieList(
+  Movie model,
+  context, {
+  double? height,
+  double? width,
+  GestureTapCallback? onTap,
+}) =>
+    Container(
       padding: const EdgeInsets.only(right: 8.0),
       child: InkWell(
-        onTap: () {
-          /// TODO : NAVIGATE TO  MOVIE DETAILS
-        },
+        onTap:onTap,
         child: Column(
           children: [
             Container(
-              height: Scaling.S(210),
-              width: Scaling.S(140),
+              height: height ?? Scaling.S(210),
+              width: width ?? Scaling.S(140),
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: const Color(0xffffffff),
                 borderRadius: BorderRadius.circular(7.0),
               ),
               child: CachedNetworkImage(
+                cacheManager: CacheManager(
+                    Config('customKey1', stalePeriod: const Duration(days: 7))),
                 fit: BoxFit.cover,
                 imageUrl:
                     AppConstance.imageCompletePathUrl(path: model.backdropPath),
@@ -134,7 +139,7 @@ Widget buildNowPlayingMovieList(Movie model) => Container(
             SizedBox(
               height: Scaling.H(10),
             ),
-            Container(
+            SizedBox(
               width: Scaling.S(140),
               child: Text(
                 model.title,
@@ -153,9 +158,6 @@ Widget buildNowPlayingMovieList(Movie model) => Container(
         ),
       ),
     );
-
-
-
 
 // ignore: must_be_immutable
 class BottomNavigation extends StatelessWidget {
@@ -186,7 +188,10 @@ class BottomNavigation extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(iconPath),
+            SvgPicture.asset(
+              iconPath,
+              height: Scaling.S(26),
+            ),
             SizedBox(
               height: Scaling.S(10),
             ),
@@ -228,4 +233,136 @@ Widget itemCurrentIndexCondition({
   );
 }
 
+class BuildPopularList extends StatelessWidget {
+  final Movie model;
 
+  final double? height;
+  final double? width;
+
+  const BuildPopularList(
+      {Key? key, required this.model, this.height, this.width})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.topEnd,
+      children: [
+        Container(
+          clipBehavior: Clip.antiAlias,
+          height: height ?? Scaling.S(210),
+          width: width ?? Scaling.S(140),
+          decoration: BoxDecoration(
+            color: const Color(0xff8d8686),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+
+          /// On Popular Tap
+          child: InkWell(
+            onTap: () {},
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl:
+                  AppConstance.imageCompletePathUrl(path: model.backdropPath),
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: Colors.grey[850]!,
+                highlightColor: Colors.grey[800]!,
+                child: Container(
+                  height: height ?? Scaling.S(300),
+                  width: width ?? Scaling.S(120),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(Scaling.S(10)),
+          child: Container(
+            height: Scaling.S(40),
+            width: Scaling.S(40),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.0, -1.0),
+                end: Alignment(0.0, 1.0),
+                colors: [Color(0xfff99f00), Color(0xffdb3069)],
+                stops: [0.0, 1.0],
+              ),
+              borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      model.voteAverage.toString().substring(0, 1),
+                      style: TextStyle(
+                        fontFamily: 'SFProDisplay-Medium',
+                        fontSize: Scaling.S(20),
+                        color: const Color(0xffffffff),
+                      ),
+                      softWrap: false,
+                    ),
+                    Text(
+                      '.${model.voteAverage.toString().substring(2, 3)}\n',
+                      style: TextStyle(
+                        fontFamily: 'SFProDisplay-Regular',
+                        fontSize: Scaling.S(10),
+                        color: const Color(0xffffffff),
+                      ),
+                      softWrap: false,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: height ?? Scaling.S(210),
+          width: width ?? Scaling.S(140),
+          child: Padding(
+            padding: EdgeInsets.all(Scaling.S(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Spacer(),
+                Text(
+                  model.releaseDate,
+                  style: TextStyle(
+                    fontFamily: 'SFProDisplay-Regular',
+                    fontSize: Scaling.S(12),
+                    color: const Color(0xccffffff),
+                  ),
+                  softWrap: false,
+                ),
+                SizedBox(
+                  height: Scaling.H(5),
+                ),
+                Text(
+                  model.title,
+                  style: TextStyle(
+                    fontFamily: 'SFProDisplay-Bold',
+                    fontSize: Scaling.S(12),
+                    color: const Color(0xffffffff),
+                  ),
+                  softWrap: true,
+                  maxLines: 3,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

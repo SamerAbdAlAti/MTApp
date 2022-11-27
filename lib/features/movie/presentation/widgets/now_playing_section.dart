@@ -1,15 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
-import 'package:movie/core/uteils/app_constance.dart';
 import 'package:movie/features/movie/domain/entities/movie.dart';
 import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
 import 'package:movie/features/movie/presentation/manager/enum/unum.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
-import 'package:movie/features/movie/presentation/pages/pieces_compilation/pieces_compilation.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:movie/features/movie/presentation/ui_bloc/togel/tog_bloc.dart';
+import 'package:movie/features/movie/presentation/widgets/nvigate_pages/movies_details_screen.dart';
+import 'package:movie/features/movie/presentation/widgets/nvigate_pages/now_playing_list_screen.dart';
 import 'package:size_builder/size_builder.dart';
 
 import '../ui_bloc/ui_bloc.dart';
@@ -70,19 +71,71 @@ class NowPlayingSection extends StatelessWidget {
                     height: Scaling.H(17),
                   ),
                   SizedBox(
-                    height: Scaling.S(300),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      itemCount: stateTow.nowPlayingMovie.length,
-                      itemBuilder: (context, index) {
-                        return buildNowPlayingMovieList(
-                            stateTow.nowPlayingMovie[index]);
-                      },
-                    ),
-                  ),
+                      height: Scaling.S(300),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: List.generate(
+                              stateTow.nowPlayingMovie.length - 12, (index) {
+                            return index == stateTow.nowPlayingMovie.length - 13
+                                ? InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const NowPlayingListScreen()));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: Scaling.S(210),
+                                          width: Scaling.S(140),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xfffecb2f),
+                                            borderRadius: BorderRadius.circular(
+                                                Scaling.S(6)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xffc2a650),
+                                                offset: Offset(0, Scaling.S(5)),
+                                                blurRadius: Scaling.S(6),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'MORE',
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    'SFProDisplay-Medium',
+                                                fontSize: Scaling.S(20),
+                                                color: const Color(0xffffffff),
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              softWrap: false,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : buildNowPlayingMovieList(
+                                    stateTow.nowPlayingMovie[index], context,
+                                    onTap: () async {
+                                    context.read<MovieBloc>().add(
+                                        GetMovieDetailsEvent(stateTow
+                                            .nowPlayingMovie[index].id));
+
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MoviesDetailsScreen()));
+                                  });
+                          }),
+                        ),
+                      )),
                 ],
               );
               // TODO: Handle this case.

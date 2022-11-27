@@ -1,12 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
-import 'package:movie/features/movie/presentation/pages/on_pording_screen/01_on_boardong_screen.dart';
 
 part 'ui_event.dart';
 
@@ -33,7 +30,9 @@ class UiBloc extends Bloc<UiEvent, UiState> {
   PageController onBoardingController = PageController();
 
   /// الخاص بصفحة ال Home
-  PageController topRatedPageHomeController =
+  final topRatedPageHomeController =
+      PageController(viewportFraction: 0.85);
+  final bottomNavigationBarController =
       PageController(viewportFraction: 0.85, initialPage: 2);
 
   /// بيانات صفحة ال on Boarding
@@ -58,11 +57,11 @@ class UiBloc extends Bloc<UiEvent, UiState> {
   void currentIndexChange(OnBoardingEvent event, emit) {
     emit(state.copyWith(currentIndex: event.currentIndex));
   }
-  int itemCurrentIndex=0;
+
 
   void bottomNavigationBarCurrentIndexChange(
       BottomNavigationBarCurrentIndexEvent event, emit) {
-    itemCurrentIndex=state.bottomNavigationBarCurrentIndex;
+
     emit(state.copyWith(bottomNavigationBarCurrentIndex: event.itemCurrentIndex));
   }
 }

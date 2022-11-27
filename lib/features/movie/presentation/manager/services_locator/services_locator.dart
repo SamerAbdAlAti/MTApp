@@ -6,22 +6,24 @@ import 'package:movie/features/movie/domain/use_cases/get_now_playing_use_case.d
 import 'package:movie/features/movie/domain/use_cases/get_popular_use_case.dart';
 import 'package:movie/features/movie/domain/use_cases/get_top_rated_use_case.dart';
 import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:movie/features/movie/presentation/ui_bloc/togel/tog_bloc.dart';
 import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
 
 final getIt = GetIt.instance;
 
 class ServicesLocator {
   void init() {
-
-
-
     /// Bloc
 
     getIt.registerFactory(() => UiBloc());
-    getIt.registerFactory(() => MovieBloc(
-        getNowPlayingUseCase: getIt(),
-        getPopularUseCase: getIt(),
-        getTopRatedUseCase: getIt()));
+    getIt.registerFactory(() => TogBloc());
+    getIt.registerFactory(
+      () => MovieBloc(
+          getNowPlayingUseCase: getIt(),
+          getPopularUseCase: getIt(),
+          getTopRatedUseCase: getIt(),
+          getMovieDetailsUseCase: getIt()),
+    );
 
     /// Data Source
 
@@ -37,5 +39,6 @@ class ServicesLocator {
     getIt.registerLazySingleton(() => GetNowPlayingUseCase(getIt()));
     getIt.registerLazySingleton(() => GetPopularUseCase(getIt()));
     getIt.registerLazySingleton(() => GetTopRatedUseCase(getIt()));
+    getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
   }
 }

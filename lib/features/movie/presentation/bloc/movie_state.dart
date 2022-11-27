@@ -13,6 +13,11 @@ class MovieState extends Equatable {
   final RequestsState popularState;
   final String popularMessage;
 
+  final MovieDetails movieDetails;
+  final RequestsState movieDetailsState;
+  final String movieDetailsMessage;
+  final int movieDetailsId;
+
   const MovieState({
     this.popularMovie = const [],
     this.popularState = RequestsState.loading,
@@ -23,6 +28,21 @@ class MovieState extends Equatable {
     this.nowPlayingMovie = const [],
     this.nowPlayingState = RequestsState.loading,
     this.nowPlayingMessage = '',
+    this.movieDetails = const MovieDetails(
+        popularity: 10.0,
+        runtime: 212.0,
+        title: "",
+        backdropPath: "",
+        id: -11,
+        overview: "",
+        posterPath: "",
+        genres: [],
+        productionCompanies: [],
+        releaseDate: "",
+        voteAverage: 2.0),
+    this.movieDetailsState = RequestsState.loading,
+    this.movieDetailsMessage = '',
+    this.movieDetailsId = 22211,
   });
 
   MovieState copyWith({
@@ -35,6 +55,10 @@ class MovieState extends Equatable {
     List<Movie>? popularMovie,
     RequestsState? popularState,
     String? popularMessage,
+    MovieDetails? movieDetails,
+    RequestsState? movieDetailsState,
+    String? movieDetailsMessage,
+    int? movieDetailsId,
   }) {
     return MovieState(
       nowPlayingMovie: nowPlayingMovie ?? this.nowPlayingMovie,
@@ -46,19 +70,26 @@ class MovieState extends Equatable {
       topRatedMovie: topRatedMovie ?? this.topRatedMovie,
       topRatedState: topRatedState ?? this.topRatedState,
       topRatedMessage: topRatedMessage ?? this.topRatedMessage,
+      movieDetails: movieDetails ?? this.movieDetails,
+      movieDetailsMessage: movieDetailsMessage ?? this.movieDetailsMessage,
+      movieDetailsState: movieDetailsState ?? this.movieDetailsState,
+      movieDetailsId: movieDetailsId ?? this.movieDetailsId,
     );
   }
 
   @override
   List<Object> get props => [
-    nowPlayingMovie,
-    nowPlayingState,
-    nowPlayingMessage,
-    topRatedMovie,
-    topRatedState,
-    topRatedMessage,
-    popularMovie,
-    popularState,
-    popularMessage,
-  ];
+        nowPlayingMovie,
+        nowPlayingState,
+        nowPlayingMessage,
+        topRatedMovie,
+        topRatedState,
+        topRatedMessage,
+        popularMovie,
+        popularState,
+        popularMessage,
+        movieDetails,
+        movieDetailsState,
+        movieDetailsMessage,
+      ];
 }

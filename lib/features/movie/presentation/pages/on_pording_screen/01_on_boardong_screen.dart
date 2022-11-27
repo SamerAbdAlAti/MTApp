@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_color.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
+import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
 import 'package:movie/features/movie/presentation/pages/pieces_compilation/pieces_compilation.dart';
 import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
 import 'package:size_builder/size_builder.dart';
@@ -184,7 +185,7 @@ Widget buildOnBoarding(OnBoardingScreenChange model, index) => Stack(
           children: [
             Image.asset(
               model.imagePath,
-              height: Scaling.H(468),
+              height: index==0?Scaling.H(468):Scaling.screenH,
               width: Scaling.screenW,
               fit: BoxFit.cover,
               alignment: AlignmentDirectional.topCenter,

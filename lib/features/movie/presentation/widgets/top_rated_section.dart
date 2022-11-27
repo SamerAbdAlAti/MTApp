@@ -32,17 +32,15 @@ class TopRatedSection extends StatelessWidget {
               case RequestsState.loaded:
                 {
                   return SizedBox(
-                    height: Scaling.S(170),
-                    width: Scaling.screenW,
-                    child: PageView.builder(
-                      controller: uiBloc.topRatedPageHomeController,
-                      itemCount: stateTow.topRatedMovie.length,
-                      itemBuilder: (context, index) {
-                        return buildOnBoardingToHome(
-                            stateTow.topRatedMovie[index]);
-                      },
-                    ),
-                  );
+                      height: Scaling.S(170),
+                      width: Scaling.screenW,
+                      child: PageView(
+                        controller: uiBloc.topRatedPageHomeController,
+                        children: List.generate(
+                            stateTow.topRatedMovie.length,
+                            (index) => buildOnBoardingToHome(
+                                stateTow.topRatedMovie[index])),
+                      ));
                 }
               case RequestsState.error:
                 {

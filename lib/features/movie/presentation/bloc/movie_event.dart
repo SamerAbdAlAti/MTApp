@@ -12,3 +12,9 @@ class GetNowPlayingEvent extends MovieEvent {}
 class GetTopRatedEvent extends MovieEvent {}
 
 class GetPopularEvent extends MovieEvent {}
+
+class GetMovieDetailsEvent extends MovieEvent {
+  final int movieId;
+
+  const GetMovieDetailsEvent(this.movieId);
+}

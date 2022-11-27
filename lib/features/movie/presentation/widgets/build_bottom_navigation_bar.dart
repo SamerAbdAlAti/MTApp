@@ -8,11 +8,10 @@ class BottomNavigationBarBuild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UiBloc, UiState>(
-      buildWhen: (c, p) =>
-          c.bottomNavigationBarCurrentIndex !=
-          p.bottomNavigationBarCurrentIndex,
+    return BlocBuilder<TogBloc, TogState>(
+
       builder: (context, stateOne) {
+        UiBloc uiBloc=UiBloc.get(context);
         Scaling.scaling(context);
         return Container(
           height: Scaling.S(70),
@@ -23,15 +22,14 @@ class BottomNavigationBarBuild extends StatelessWidget {
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
                 child: itemCurrentIndexCondition(
-                  condition: stateOne.bottomNavigationBarCurrentIndex == 0,
+                  condition: stateOne.itemCurrentIndex == 0,
                   labelText: "MOVIES",
                   darkIconIcon: movieBottomNavigationBarDark,
                   lightIcon: movieBottomNavigationBarLight,
                   onPressed: () async {
                     WidgetsFlutterBinding.ensureInitialized();
                     context
-                        .read<UiBloc>()
-                        .add(const BottomNavigationBarCurrentIndexEvent(0));
+                        .read<TogBloc>().add(const BottomNavigationBarCurrentIndexChangeEvent(bottomCurrentIndex: 0));
                   },
                 ),
               ),
@@ -42,15 +40,14 @@ class BottomNavigationBarBuild extends StatelessWidget {
                     ),
               Container(
                 child: itemCurrentIndexCondition(
-                  condition: stateOne.bottomNavigationBarCurrentIndex == 1,
+                  condition: stateOne.itemCurrentIndex == 1,
                   labelText: "TV",
                   darkIconIcon: tvBottomNavigationBarDark,
                   lightIcon: tvBottomNavigationBarLight,
                   onPressed: () async {
                     WidgetsFlutterBinding.ensureInitialized();
                     context
-                        .read<UiBloc>()
-                        .add(const BottomNavigationBarCurrentIndexEvent(1));
+                        .read<TogBloc>().add(const BottomNavigationBarCurrentIndexChangeEvent(bottomCurrentIndex: 1));
 
                   },
                 ),
@@ -62,16 +59,14 @@ class BottomNavigationBarBuild extends StatelessWidget {
                     ),
               Container(
                 child: itemCurrentIndexCondition(
-                  condition: stateOne.bottomNavigationBarCurrentIndex == 2,
+                  condition: stateOne.itemCurrentIndex == 2,
                   labelText: "PROFILE",
                   darkIconIcon: profileBottomNavigationBarDark,
                   lightIcon: profileBottomNavigationBarLight,
                   onPressed: () async {
                     WidgetsFlutterBinding.ensureInitialized();
                     context
-                        .read<UiBloc>()
-                        .add(const BottomNavigationBarCurrentIndexEvent(2));
-
+                        .read<TogBloc>().add(const BottomNavigationBarCurrentIndexChangeEvent(bottomCurrentIndex: 2));
 
                   },
                 ),

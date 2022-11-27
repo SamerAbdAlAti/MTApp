@@ -14,3 +14,5 @@ const String profileBottomNavigationBarLight =
     "assets/icons/profile_bottom_navegetion_bar_light.svg";
 const String profileBottomNavigationBarDark =
     "assets/icons/profile_bottom_navegetion_bar_dark.svg";
+
+const String backTopIcon = "assets/icons/back_top_icon.svg";

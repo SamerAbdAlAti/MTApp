@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie/features/movie/presentation/widgets/now_playing_section.dart';
 import 'package:movie/features/movie/presentation/widgets/top_section_search.dart';
 import 'package:size_builder/size_builder.dart';
@@ -22,12 +23,10 @@ class _MovieHomeScreenState extends State<MovieHomeScreen> {
   @override
   Widget build(BuildContext context) {
     Scaling.scaling(context);
-
-    print("build");
     return Scaffold(
 
 
-      /// ////////////////////////////////////////\
+
 
       body: SingleChildScrollView(
         controller: controller,

@@ -24,4 +24,8 @@ class MovieModel extends Movie {
       genreIds: List<int>.from(json['genre_ids'].map((e) => e)),
     );
   }
+
+
+
+
 }

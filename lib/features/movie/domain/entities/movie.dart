@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
-
+part 'movie_details.dart';
+part 'genres.dart';
+part 'production_companies.dart';
 class Movie extends Equatable {
   final int id;
   final String title;
@@ -22,8 +24,7 @@ class Movie extends Equatable {
   });
 
   @override
-  List<Object> get props =>
-      [
+  List<Object> get props => [
         id,
         title,
         overview,
