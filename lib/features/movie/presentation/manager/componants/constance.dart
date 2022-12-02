@@ -23,7 +23,7 @@ class OnBoardingScreenChange extends Equatable {
   List<Object> get props => [imagePath];
 }
 
-Widget buildOnBoardingToHome(Movie model) => Stack(
+Widget buildOnBoardingToHome(Movie model, {GestureTapCallback? onTap}) => Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
         SizedBox(
@@ -36,27 +36,30 @@ Widget buildOnBoardingToHome(Movie model) => Stack(
               color: Colors.white,
               borderRadius: BorderRadius.circular(Scaling.S(6.0)),
             ),
-            child: CachedNetworkImage(
-              width: Scaling.S(120),
-              height: Scaling.S(120),
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey[400]!,
-                highlightColor: Colors.white,
-                child: Container(
-                  height: Scaling.S(170),
-                  width: Scaling.S(120),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
+            child: InkWell(
+              onTap: onTap,
+              child: CachedNetworkImage(
+                width: Scaling.S(120),
+                height: Scaling.S(120),
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey[400]!,
+                  highlightColor: Colors.white,
+                  child: Container(
+                    height: Scaling.S(170),
+                    width: Scaling.S(120),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
                 ),
-              ),
-              imageUrl:
-                  AppConstance.imageCompletePathUrl(path: model.posterPath),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-                color: Colors.white,
+                imageUrl:
+                    AppConstance.imageCompletePathUrl(path: model.posterPath),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -92,16 +95,17 @@ Widget buildOnBoardingToHome(Movie model) => Stack(
     );
 
 Widget buildNowPlayingMovieList(
-  Movie model,
   context, {
+  Movie? model,
   double? height,
   double? width,
   GestureTapCallback? onTap,
+  int? index,
 }) =>
     Container(
-      padding: const EdgeInsets.only(right: 8.0),
+      padding: EdgeInsets.only(right: 8.0, left: index == 0 ? 20 : 0.0),
       child: InkWell(
-        onTap:onTap,
+        onTap: onTap,
         child: Column(
           children: [
             Container(
@@ -116,8 +120,8 @@ Widget buildNowPlayingMovieList(
                 cacheManager: CacheManager(
                     Config('customKey1', stalePeriod: const Duration(days: 7))),
                 fit: BoxFit.cover,
-                imageUrl:
-                    AppConstance.imageCompletePathUrl(path: model.backdropPath),
+                imageUrl: AppConstance.imageCompletePathUrl(
+                    path: model!.backdropPath!),
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: Colors.grey[850]!,
                   highlightColor: Colors.grey[800]!,
@@ -239,8 +243,10 @@ class BuildPopularList extends StatelessWidget {
   final double? height;
   final double? width;
 
+  final GestureTapCallback? onTap;
+
   const BuildPopularList(
-      {Key? key, required this.model, this.height, this.width})
+      {Key? key, required this.model, this.height, this.width, this.onTap})
       : super(key: key);
 
   @override
@@ -259,11 +265,11 @@ class BuildPopularList extends StatelessWidget {
 
           /// On Popular Tap
           child: InkWell(
-            onTap: () {},
+            onTap: onTap,
             child: CachedNetworkImage(
               fit: BoxFit.cover,
-              imageUrl:
-                  AppConstance.imageCompletePathUrl(path: model.backdropPath),
+              imageUrl: AppConstance.imageCompletePathUrl(
+                  path: model.backdropPath ?? model.posterPath),
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: Colors.grey[850]!,
                 highlightColor: Colors.grey[800]!,

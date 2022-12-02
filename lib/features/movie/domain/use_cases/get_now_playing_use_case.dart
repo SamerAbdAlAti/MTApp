@@ -5,6 +5,7 @@ import 'package:movie/core/error_handel/exception/failure.dart';
 import 'package:movie/features/movie/domain/entities/movie.dart';
 import 'package:movie/features/movie/domain/repositories/base_movie_repository.dart';
 part 'get_movie_details_use_case.dart';
+part 'get_movie_videos_use_case.dart';
 class GetNowPlayingUseCase extends BaseUseCase<List<Movie>,NoParameter> {
 
   final BaseMovieRepository baseMovieRepository;

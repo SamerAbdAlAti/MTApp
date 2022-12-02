@@ -96,13 +96,34 @@ class PopularListScreen extends StatelessWidget {
                                   horizontalSpace: Scaling.S(10),
 
                                   children: List.generate(
-                                      state.nowPlayingMovie.length, (index) {
-                                    Movie model = state.nowPlayingMovie[index];
+                                      state.popularMovie.length, (index) {
+                                    Movie model = state.popularMovie[index];
                                     return BuildPopularList(
                                       height: Scaling.S(250),
                                       width: Scaling.S(160),
 
-                                      model: model,
+
+                                      model: model,onTap: () async {
+                                      /// TODO: Get Movie Details
+                                      WidgetsFlutterBinding.ensureInitialized();
+                                      context.read<MovieBloc>().add(
+                                          GetMovieDetailsEvent(state
+                                              .popularMovie[index].id));
+                                      /// TODO: Get Movie Videos
+                                      context.read<MovieBloc>().add(
+                                          GetMovieVideosEvent(state
+                                              .popularMovie[index].id));
+                                      /// TODO: Make StatusBar Hidden
+                                      StatusBarControl.setHidden(true,
+                                          animation: StatusBarAnimation.FADE);
+                                      await Navigator.push(
+                                        /// TODO: Navigate To Details
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const MoviesDetailsScreen(),
+                                          ));
+                                    }
                                     );
                                   }),
                                 ),

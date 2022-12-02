@@ -3,18 +3,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:size_builder/size_builder.dart';
 
 class TopSectionSearch extends StatelessWidget {
-  const TopSectionSearch({Key? key}) : super(key: key);
+  final String title;
+  const TopSectionSearch({Key? key, this.title='MOVIES'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Scaling.scaling(context);
     return Padding(
-      padding: EdgeInsets.all(Scaling.W(20)).copyWith(top: Scaling.H(40)),
+      padding: EdgeInsets.all(Scaling.W(20)).copyWith(top: Scaling.H(40),bottom: 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'MOVIES',
+            title,
             style: TextStyle(
               fontFamily: 'SFProDisplay-Bold',
               fontSize: Scaling.S(24),

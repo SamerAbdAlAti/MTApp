@@ -24,25 +24,26 @@ class _MovieHomeScreenState extends State<MovieHomeScreen> {
   Widget build(BuildContext context) {
     Scaling.scaling(context);
     return Scaffold(
-
-
-
-
-      body: SingleChildScrollView(
-        controller: controller,
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: const [
-            TopSectionSearch(),
-            SizedBox(child: TopRatedSection()),
-
-            /// Basic import /// part from now Playing
-            SizedBox(child: NowPlayingSection()),
-            SizedBox(child: PopularSection()),
-          ],
-        ),
+      body: Column(
+        children: [
+          const TopSectionSearch(),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: controller,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Scaling.S(20),
+                  ),
+                  const SizedBox(child: TopRatedSection()),
+                  const SizedBox(child: NowPlayingSection()),
+                  const SizedBox(child: PopularSection()),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-

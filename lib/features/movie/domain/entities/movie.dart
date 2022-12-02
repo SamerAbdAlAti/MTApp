@@ -1,12 +1,18 @@
 import 'package:equatable/equatable.dart';
+
 part 'movie_details.dart';
+
 part 'genres.dart';
+
 part 'production_companies.dart';
+
+part 'movie_videos.dart';
+
 class Movie extends Equatable {
   final int id;
   final String title;
   final String overview;
-  final String backdropPath;
+  final String ?backdropPath;
   final String posterPath;
   final String releaseDate;
   final double voteAverage;
@@ -28,7 +34,6 @@ class Movie extends Equatable {
         id,
         title,
         overview,
-        backdropPath,
         posterPath,
         releaseDate,
         voteAverage,

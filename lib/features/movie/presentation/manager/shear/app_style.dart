@@ -5,6 +5,7 @@ import 'package:movie/features/movie/presentation/manager/shear/app_color.dart';
 class AppStyle extends Equatable {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppColor.mainColor,
+    primarySwatch: Colors.grey,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColor.mainColor,
       elevation: 0.0,

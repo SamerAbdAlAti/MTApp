@@ -1,29 +1,43 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:movie/app_cubit/app_cubit.dart';
 import 'package:movie/features/movie/domain/entities/movie.dart';
-import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/bloc/movie_bloc.dart';
+
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/ui_bloc/ui_bloc.dart';
 import 'package:movie/features/movie/presentation/manager/componants/constance.dart';
 import 'package:movie/features/movie/presentation/manager/enum/unum.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_string_componts.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/togel/tog_bloc.dart';
 import 'package:movie/features/movie/presentation/widgets/nvigate_pages/movies_details_screen.dart';
 import 'package:movie/features/movie/presentation/widgets/nvigate_pages/now_playing_list_screen.dart';
 import 'package:size_builder/size_builder.dart';
+import 'package:status_bar_control/status_bar_control.dart';
 
-import '../ui_bloc/ui_bloc.dart';
 
 part 'popular_section.dart';
 
 part 'top_rated_section.dart';
 
-part 'build_bottom_navigation_bar.dart';
+part '../../../../app_share_ui/build_bottom_navigation_bar.dart';
 
-class NowPlayingSection extends StatelessWidget {
+class NowPlayingSection extends StatefulWidget {
+
   const NowPlayingSection({Key? key}) : super(key: key);
 
+  @override
+  State<NowPlayingSection> createState() => _NowPlayingSectionState();
+}
+
+class _NowPlayingSectionState extends State<NowPlayingSection> {
+  final ScrollController controller=ScrollController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieBloc, MovieState>(
@@ -73,14 +87,17 @@ class NowPlayingSection extends StatelessWidget {
                   SizedBox(
                       height: Scaling.S(300),
                       child: SingleChildScrollView(
+                        controller: controller,
+                        keyboardDismissBehavior:ScrollViewKeyboardDismissBehavior.onDrag,
                         scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: List.generate(
                               stateTow.nowPlayingMovie.length - 12, (index) {
                             return index == stateTow.nowPlayingMovie.length - 13
                                 ? InkWell(
-                                    onTap: () {
+                                    onTap: () async {
+                                      WidgetsFlutterBinding.ensureInitialized();
+
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -121,17 +138,29 @@ class NowPlayingSection extends StatelessWidget {
                                     ),
                                   )
                                 : buildNowPlayingMovieList(
-                                    stateTow.nowPlayingMovie[index], context,
-                                    onTap: () async {
+                                    index: index,
+                                    model: stateTow.nowPlayingMovie[index],
+                                    context, onTap: () async {
+
+                                      /// TODO: Get Movie Details
+                                    WidgetsFlutterBinding.ensureInitialized();
                                     context.read<MovieBloc>().add(
                                         GetMovieDetailsEvent(stateTow
                                             .nowPlayingMovie[index].id));
-
+                                    /// TODO: Get Movie Videos
+                                    context.read<MovieBloc>().add(
+                                        GetMovieVideosEvent(stateTow
+                                            .nowPlayingMovie[index].id));
+                                    /// TODO: Make StatusBar Hidden
+                                    StatusBarControl.setHidden(true,
+                                        animation: StatusBarAnimation.FADE);
                                     await Navigator.push(
+                                        /// TODO: Navigate To Details
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MoviesDetailsScreen()));
+                                          builder: (context) =>
+                                              const MoviesDetailsScreen(),
+                                        ));
                                   });
                           }),
                         ),

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
+    <defs>
+        <filter id="Oval" x="0" y="0" width="84" height="84">
+            <feOffset dy="8" />
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feFlood flood-opacity="0.071"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g id="Group_4" transform="translate(8 7)">
+        <g transform="matrix(1, 0, 0, 1, -8, -7)" filter="url(#Oval)">
+            <circle id="Oval-2" cx="27" cy="27" r="27" transform="translate(15 7)" fill="#fff"/>
+        </g>
+        <path id="Star_Copy_2" d="M18.8,26.489a3.787,3.787,0,0,0-3.525,0L12.034,28.2a2.793,2.793,0,0,1-4.052-2.944l.62-3.614a3.787,3.787,0,0,0-1.089-3.352l-2.626-2.56a2.793,2.793,0,0,1,1.548-4.763l3.63-.527a3.787,3.787,0,0,0,2.852-2.072l1.623-3.289a2.793,2.793,0,0,1,5.009,0L21.17,8.363a3.787,3.787,0,0,0,2.852,2.072l3.63.527A2.793,2.793,0,0,1,29.2,15.725l-2.626,2.56a3.787,3.787,0,0,0-1.089,3.352l.62,3.614A2.793,2.793,0,0,1,22.052,28.2Z" transform="translate(16.957 10.483)" fill="none" stroke="#979797" stroke-miterlimit="10" stroke-width="2"/>
+    </g>
+</svg>

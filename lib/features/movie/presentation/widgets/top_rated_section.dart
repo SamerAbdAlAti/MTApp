@@ -39,7 +39,31 @@ class TopRatedSection extends StatelessWidget {
                         children: List.generate(
                             stateTow.topRatedMovie.length,
                             (index) => buildOnBoardingToHome(
-                                stateTow.topRatedMovie[index])),
+                                    stateTow.topRatedMovie[index],
+                                    onTap: () async {
+                                  /// TODO: Get Movie Details
+                                  WidgetsFlutterBinding.ensureInitialized();
+                                  context.read<MovieBloc>().add(
+                                      GetMovieDetailsEvent(
+                                          stateTow.topRatedMovie[index].id));
+
+                                  /// TODO: Get Movie Videos
+                                  context.read<MovieBloc>().add(
+                                      GetMovieVideosEvent(
+                                          stateTow.topRatedMovie[index].id));
+
+                                  /// TODO: Make StatusBar Hidden
+                                  StatusBarControl.setHidden(true,
+                                      animation: StatusBarAnimation.FADE);
+                                  await Navigator.push(
+
+                                      /// TODO: Navigate To Details
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MoviesDetailsScreen(),
+                                      ));
+                                })),
                       ));
                 }
               case RequestsState.error:

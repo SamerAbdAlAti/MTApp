@@ -49,6 +49,8 @@ class PopularSection extends StatelessWidget {
                     height: Scaling.S(500),
                     width: Scaling.screenW,
                     child: IntrinsicGridView.horizontal(
+
+
                       padding: EdgeInsets.only(
                         top: Scaling.S(16),
                         bottom: Scaling.S(12),
@@ -103,7 +105,27 @@ class PopularSection extends StatelessWidget {
                                     ],
                                   ),
                               )
-                              : BuildPopularList(model: model,);
+                              : BuildPopularList(model: model,onTap: () async {
+                            /// TODO: Get Movie Details
+                            WidgetsFlutterBinding.ensureInitialized();
+                            context.read<MovieBloc>().add(
+                                GetMovieDetailsEvent(stateTow
+                                    .popularMovie[index].id));
+                            /// TODO: Get Movie Videos
+                            context.read<MovieBloc>().add(
+                                GetMovieVideosEvent(stateTow
+                                    .popularMovie[index].id));
+                            /// TODO: Make StatusBar Hidden
+                            StatusBarControl.setHidden(true,
+                                animation: StatusBarAnimation.FADE);
+                            await Navigator.push(
+                              /// TODO: Navigate To Details
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const MoviesDetailsScreen(),
+                                ));
+                          });
                         },
                       ),
                     ),

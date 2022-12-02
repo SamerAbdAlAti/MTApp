@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/features/movie/presentation/bloc/movie_bloc.dart';
-import 'package:movie/features/movie/presentation/manager/services_locator/services_locator.dart';
-import 'package:movie/features/movie/presentation/manager/shear/app_color.dart';
+import 'package:movie/app_cubit/app_cubit.dart';
+import 'package:movie/app_share_ui/pieces_compilation/pieces_compilation.dart';
+import 'package:movie/core/services_locator/services_locator.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/bloc/movie_bloc.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/on_boarding_cubit/on_boardings_cubit.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/ui_bloc/my_bloc_observer.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/ui_bloc/ui_bloc.dart';
+import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/you_tube_player_cubit/you_tube_player_cubit.dart';
 import 'package:movie/features/movie/presentation/manager/shear/app_style.dart';
 import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
-import 'package:movie/features/movie/presentation/pages/on_pording_screen/01_on_boardong_screen.dart';
-import 'package:movie/features/movie/presentation/pages/pieces_compilation/pieces_compilation.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/my_bloc_observer.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/togel/tog_bloc.dart';
-import 'package:movie/features/movie/presentation/ui_bloc/ui_bloc.dart';
-import 'package:movie/features/movie/presentation/widgets/nvigate_pages/movies_details_screen.dart';
+import 'package:movie/features/movie/presentation/pages/on_pording_screen/on_boardong_screen.dart';
+import 'package:movie/features/tv/presentation/blocs_and_cubits/tv_bloc/tv_bloc.dart';
+import 'package:movie/features/tv/presentation/widgets/navigate_screens/tv_details_screen.dart';
 import 'package:size_builder/size_builder.dart';
 import 'package:status_bar_control/status_bar_control.dart';
 
@@ -19,9 +21,12 @@ void main() async {
   ServicesLocator().init();
 
   Bloc.observer = MyBlocObserver();
+  OnBoardingsCubit();
 
-  // await StatusBarControl.setFullscreen(true);
-  await StatusBarControl.setColor(AppColor.mainColor.withOpacity(0.0));
+  await StatusBarControl.setFullscreen(true);
+  await StatusBarControl.setColor(Colors.white.withOpacity(0.0));
+  await StatusBarControl.setStyle(StatusBarStyle.DARK_CONTENT);
+  await StatusBarControl.setNavigationBarStyle(NavigationBarStyle.DARK);
 
   runApp(const MyApp());
 }
@@ -40,12 +45,20 @@ class MyApp extends StatelessWidget {
             ..add(GetTopRatedEvent()),
         ),
         BlocProvider(create: (BuildContext context) => getIt<UiBloc>()),
-        BlocProvider(create: (BuildContext context) => getIt<TogBloc>())
+        BlocProvider(create: (BuildContext context) => getIt<AppCubit>()),
+        BlocProvider(
+            create: (BuildContext context) => getIt<YouTubePlayerCubit>()),
+        BlocProvider(
+          create: (BuildContext context) => getIt<TvBloc>()
+            ..add(GetTvTopRatedEvent())
+            ..add(GetTvPopularEvent()),
+        ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: AppStyle.lightTheme,
         darkTheme: AppStyle.darkTheme,
-        home: const MovieHomeScreen(),
+        home: const OnBoardingScreen(),
       ),
     );
   }
@@ -58,7 +71,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     Scaling.scaling(context);
     return const Material(
-      child: OnBoardingScreen01(),
+      child: PiecesCompilation(),
     );
   }
 }
