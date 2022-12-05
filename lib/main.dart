@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/app_cubit/app_cubit.dart';
 import 'package:movie/app_share_ui/pieces_compilation/pieces_compilation.dart';
+import 'package:movie/core/cache_helper/cache_helper.dart';
 import 'package:movie/core/services_locator/services_locator.dart';
 import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/bloc/movie_bloc.dart';
 import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cubits/on_boarding_cubit/on_boardings_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:movie/features/movie/presentation/manager/app_movie_blocs_and_cu
 import 'package:movie/features/movie/presentation/manager/shear/app_style.dart';
 import 'package:movie/features/movie/presentation/pages/movie_home_screen/movie_home_screen.dart';
 import 'package:movie/features/movie/presentation/pages/on_pording_screen/on_boardong_screen.dart';
+import 'package:movie/features/movie/presentation/widgets/movie_search/movie_search_screen.dart';
 import 'package:movie/features/tv/presentation/blocs_and_cubits/tv_bloc/tv_bloc.dart';
 import 'package:movie/features/tv/presentation/widgets/navigate_screens/tv_details_screen.dart';
 import 'package:size_builder/size_builder.dart';
@@ -19,20 +21,35 @@ import 'package:status_bar_control/status_bar_control.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServicesLocator().init();
+  await CacheHelper.init();
 
+  bool? isFirst_ = CacheHelper.getBool(key: "first_time");
   Bloc.observer = MyBlocObserver();
   OnBoardingsCubit();
 
+if(isFirst_==null){
   await StatusBarControl.setFullscreen(true);
   await StatusBarControl.setColor(Colors.white.withOpacity(0.0));
   await StatusBarControl.setStyle(StatusBarStyle.DARK_CONTENT);
   await StatusBarControl.setNavigationBarStyle(NavigationBarStyle.DARK);
-
-  runApp(const MyApp());
+}
+else{
+  await StatusBarControl.setFullscreen(false);
+  await StatusBarControl.setColor(
+      Colors.white.withOpacity(0.0));
+  await StatusBarControl.setStyle(
+    StatusBarStyle.DARK_CONTENT,
+  );
+}
+  runApp(MyApp(
+    isFirst: isFirst_,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool? isFirst;
+
+  const MyApp({super.key, required this.isFirst});
 
   @override
   Widget build(BuildContext context) {
@@ -49,49 +66,32 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (BuildContext context) => getIt<YouTubePlayerCubit>()),
         BlocProvider(
-          create: (BuildContext context) => getIt<TvBloc>()
-            ..add(GetTvTopRatedEvent())
-            ..add(GetTvPopularEvent()),
-        ),
+            create: (BuildContext context) => getIt<TvBloc>()
+              ..add(GetTvTopRatedEvent())
+              ..add(GetTvPopularEvent())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppStyle.lightTheme,
         darkTheme: AppStyle.darkTheme,
-        home: const OnBoardingScreen(),
+        home: Home(isFirst: isFirst),
       ),
     );
   }
 }
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  final bool? isFirst;
+
+  const Home({Key? key, required this.isFirst}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Scaling.scaling(context);
-    return const Material(
-      child: PiecesCompilation(),
-    );
-  }
-}
-
-class TestScreen extends StatelessWidget {
-  const TestScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: MaterialButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const MovieHomeScreen(),
-            ));
-          },
-          color: Colors.red,
-        ),
-      ),
+    return Material(
+      child: isFirst == null
+          ? const OnBoardingScreen()
+          : const PiecesCompilation(),
     );
   }
 }

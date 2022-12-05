@@ -5,6 +5,7 @@ class TvPopularSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Scaling.scaling(context);
     return BlocBuilder<TvBloc, TvState>(
       buildWhen: (c, p) => c.tvPopularState != p.tvPopularState,
       builder: (context, state) {
@@ -34,56 +35,55 @@ class TvPopularSection extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => TvPopularList(
-                                        list: state.tvPopular,
-                                      )));
+                                    list: state.tvPopular,
+                                  )));
                             },
-                            child: GestureDetector(
-                              onTap: (){
-
-                              },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: Scaling.S(10),
-                                  ),
-                                  Container(
-                                    height: Scaling.S(160),
-                                    width: double.maxFinite,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xfffecb2f),
-                                      borderRadius:
-                                          BorderRadius.circular(Scaling.S(6)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: const Color(0xffc2a650),
-                                          offset: Offset(0, Scaling.S(5)),
-                                          blurRadius: Scaling.S(6),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'MORE',
-                                        style: TextStyle(
-                                          fontFamily: 'SFProDisplay-Medium',
-                                          fontSize: Scaling.S(20),
-                                          color: const Color(0xffffffff),
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        softWrap: false,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: Scaling.S(10),
+                                ),
+                                Container(
+                                  height: Scaling.S(160),
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xfffecb2f),
+                                    borderRadius:
+                                        BorderRadius.circular(Scaling.S(6)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xffc2a650),
+                                        offset: Offset(0, Scaling.S(5)),
+                                        blurRadius: Scaling.S(6),
                                       ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'MORE',
+                                      style: TextStyle(
+                                        fontFamily: 'SFProDisplay-Medium',
+                                        fontSize: Scaling.S(20),
+                                        color: const Color(0xffffffff),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      softWrap: false,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           )
                         : GestureDetector(
                   onTap: (){
                     StatusBarControl.setHidden(true,animation: StatusBarAnimation.FADE);
                     context.read<TvBloc>().add(GetTvDetailsEvent(tvId: state.tvPopular[index].id));
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const TvDetailsScreen()));
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      context.read<TvBloc>().add(GetTvVideosEvent(tvId: state.tvPopular[index].id));
+                      return const TvDetailsScreen();
+                    }));
                   },
                           child: Padding(
                               padding: EdgeInsets.all(Scaling.S(20)).copyWith(
@@ -109,8 +109,8 @@ class TvPopularSection extends StatelessWidget {
                                           fit: BoxFit.cover,
                                           placeholder: (context, url) =>
                                               Shimmer.fromColors(
-                                            baseColor: Colors.grey[850]!,
-                                            highlightColor: Colors.grey[800]!,
+                                            baseColor: Colors.grey[200]!,
+                                            highlightColor: Colors.grey[400]!,
                                             child: Container(
                                               height: Scaling.S(300),
                                               width: Scaling.S(120),

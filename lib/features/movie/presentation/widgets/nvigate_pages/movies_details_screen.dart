@@ -15,6 +15,7 @@ import 'package:size_builder/size_builder.dart';
 import 'package:status_bar_control/status_bar_control.dart';
 
 class MoviesDetailsScreen extends StatelessWidget {
+
   const MoviesDetailsScreen({Key? key}) : super(key: key);
 
   @override
@@ -81,7 +82,23 @@ class MoviesDetailsScreen extends StatelessWidget {
                                                     colorBlendMode:
                                                         BlendMode.darken,
                                                     fit: BoxFit.cover,
+                                                    placeholder: (context, url) =>
+                                                        Shimmer.fromColors(
+                                                          baseColor: Colors.grey[200]!,
+                                                          highlightColor: Colors.grey[400]!,
+                                                          child: Container(
+                                                            height: Scaling.S(300),
+                                                            width: Scaling.S(120),
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.black,
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8.0),
+                                                            ),
+                                                          ),
+                                                        ),
                                                   ),
+
                                                 ),
                                                 SizedBox(
                                                   height: double.maxFinite,

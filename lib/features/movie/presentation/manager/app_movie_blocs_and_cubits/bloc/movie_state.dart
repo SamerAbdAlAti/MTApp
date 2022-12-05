@@ -18,13 +18,17 @@ class MovieState extends Equatable {
   final String movieDetailsMessage;
   final int movieDetailsId;
 
+  final String youTubeUrl;
+  final RequestsState youTubeState;
+  final String videoKey;
+
   final List<MovieVideos> movieVideos;
   final RequestsState movieVideosState;
   final String movieVideosMessage;
 
-  final String youTubeUrl;
-  final RequestsState youTubeState;
-  final String videoKey;
+  final List<Movie> searchMovie;
+  final RequestsState searchMovieState;
+  final String searchMovieMessage;
 
   const MovieState({
     this.popularMovie = const [],
@@ -57,6 +61,9 @@ class MovieState extends Equatable {
     this.youTubeUrl = 'tnLx7mif5Vc',
     this.youTubeState = RequestsState.loaded,
     this.videoKey = '',
+    this.searchMovie = const [],
+    this.searchMovieMessage = "",
+    this.searchMovieState = RequestsState.loaded,
   });
 
   MovieState copyWith({
@@ -79,6 +86,9 @@ class MovieState extends Equatable {
     String? youTubeUrl,
     RequestsState? youTubeState,
     String? videoKey,
+    List<Movie>? searchMovie,
+    RequestsState? searchMovieState,
+    String? searchMovieMessage,
   }) {
     return MovieState(
       nowPlayingMovie: nowPlayingMovie ?? this.nowPlayingMovie,
@@ -100,11 +110,15 @@ class MovieState extends Equatable {
       youTubeState: youTubeState ?? this.youTubeState,
       youTubeUrl: youTubeUrl ?? this.youTubeUrl,
       videoKey: videoKey ?? this.videoKey,
+      searchMovie: searchMovie ?? this.searchMovie,
+      searchMovieState: searchMovieState ?? this.searchMovieState,
+      searchMovieMessage: searchMovieMessage ?? this.searchMovieMessage,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object> get props =>
+      [
         nowPlayingMovie,
         nowPlayingState,
         nowPlayingMessage,
@@ -117,8 +131,15 @@ class MovieState extends Equatable {
         movieDetails,
         movieDetailsState,
         movieDetailsMessage,
+        movieDetailsId,
+        youTubeUrl,
+        youTubeState,
+        videoKey,
         movieVideos,
         movieVideosState,
         movieVideosMessage,
+        searchMovie,
+        searchMovieState,
+        searchMovieMessage,
       ];
 }

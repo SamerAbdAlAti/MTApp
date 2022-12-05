@@ -123,8 +123,8 @@ Widget buildNowPlayingMovieList(
                 imageUrl: AppConstance.imageCompletePathUrl(
                     path: model!.backdropPath!),
                 placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey[850]!,
-                  highlightColor: Colors.grey[800]!,
+                  baseColor: Colors.grey[200]!,
+                  highlightColor: Colors.grey[400]!,
                   child: Container(
                     height: Scaling.S(300),
                     width: Scaling.S(120),
@@ -271,8 +271,8 @@ class BuildPopularList extends StatelessWidget {
               imageUrl: AppConstance.imageCompletePathUrl(
                   path: model.backdropPath ?? model.posterPath),
               placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey[850]!,
-                highlightColor: Colors.grey[800]!,
+                baseColor: Colors.grey[200]!,
+                highlightColor: Colors.grey[400]!,
                 child: Container(
                   height: height ?? Scaling.S(300),
                   width: width ?? Scaling.S(120),

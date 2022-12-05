@@ -13,6 +13,8 @@ abstract class BaseMovieRemoteDataSource {
 
   Future<List<MovieModel>> getPopularMovie();
 
+  Future<List<MovieModel>> searchMovie({required String query});
+
   Future<MovieDetailsModel> getMovieDetails(int movieID);
 
   Future<List<MovieVideosModel>> getMovieVideos(int movieID);
@@ -73,10 +75,23 @@ class MovieRemoteDataSource extends BaseMovieRemoteDataSource {
     final response = await Dio().get(
         "${AppConstance.baseUrl}/movie/$movieID/videos?api_key=${AppConstance.apiKey}");
 
-
     if (response.statusCode == 200) {
       return List<MovieVideosModel>.from((response.data['results'] as List)
           .map((e) => MovieVideosModel.fromJson(e)));
+    } else {
+      throw ServerException(
+          errorMessageModel: ErrorMessageModel.fromJson(response.data));
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> searchMovie({required String query}) async {
+    final response = await Dio().get(
+      "${AppConstance.baseUrl}/search/movie?api_key=${AppConstance.apiKey}&query=$query",
+    );
+    if (response.statusCode == 200) {
+      return List<MovieModel>.from((response.data['results'] as List)
+          .map((e) => MovieModel.fromJson(e)));
     } else {
       throw ServerException(
           errorMessageModel: ErrorMessageModel.fromJson(response.data));

@@ -2,7 +2,7 @@ part of 'now_playing_list_screen.dart';
 
 class VideoScreen extends StatelessWidget {
   final String videoId;
-  final List<MovieVideos> list;
+  final List list;
 
   const VideoScreen({super.key, required this.videoId, required this.list});
 

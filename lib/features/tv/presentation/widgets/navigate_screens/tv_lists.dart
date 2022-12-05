@@ -18,7 +18,11 @@ class TvLists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Scaling.scaling(context);
     return BlocBuilder<TvBloc, TvState>(
+      buildWhen: (c, p) =>
+          c.tvPopularState != p.tvPopularState ||
+          c.tvTopRatedState != p.tvTopRatedState,
       builder: (context, state) {
         return Scaffold(
           body: SafeArea(
@@ -98,9 +102,18 @@ class TvLists extends StatelessWidget {
                                   context, onTap: () async {
                                 /// TODO: Get Movie Details
                                 WidgetsFlutterBinding.ensureInitialized();
-                                StatusBarControl.setHidden(true,animation: StatusBarAnimation.FADE);
-                                context.read<TvBloc>().add(GetTvDetailsEvent(tvId: list[index].id));
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const TvDetailsScreen()));
+                                StatusBarControl.setHidden(true,
+                                    animation: StatusBarAnimation.FADE);
+                                context.read<TvBloc>().add(
+                                    GetTvDetailsEvent(tvId: list[index].id));
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  context.read<TvBloc>().add(
+                                      GetTvVideosEvent(tvId: list[index].id));
+
+                                  return const TvDetailsScreen();
+                                }));
+
                                 /// TODO: Get Movie Videos
                                 /// TODO: Make StatusBar Hidden
                                 // StatusBarControl.setHidden(true,

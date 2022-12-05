@@ -10,18 +10,27 @@ import 'package:movie/features/tv/presentation/widgets/navigate_screens/tv_popul
 import 'package:shimmer/shimmer.dart';
 import 'package:size_builder/size_builder.dart';
 import 'package:status_bar_control/status_bar_control.dart';
+
 part 'tv_popular_section.dart';
+
 class TvTopRatedSection extends StatelessWidget {
   final int index;
   final Tv model;
-  const TvTopRatedSection(this.model,{Key? key, required this.index,  }) : super(key: key);
+
+  const TvTopRatedSection(
+    this.model, {
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Scaling.scaling(context);
+
     return BlocBuilder<TvBloc, TvState>(
-      buildWhen: (c,p)=>c.tvTopRatedState!=p.tvTopRatedState,
+      buildWhen: (c, p) => c.tvTopRatedState != p.tvTopRatedState,
       builder: (context, state) {
-        switch(state.tvTopRatedState){
+        switch (state.tvTopRatedState) {
           case RequestsState.loading:
             return Center(
               child: SizedBox(
@@ -34,19 +43,24 @@ class TvTopRatedSection extends StatelessWidget {
                 ),
               ),
             );
-            // TODO: Handle this case.
+          // TODO: Handle this case.
           case RequestsState.loaded:
             return Padding(
               padding: EdgeInsets.all(Scaling.S(10)).copyWith(
                   left: index == 0 ? Scaling.S(20) : 10,
-                  right:
-                  index == state.tvTopRated.length - 1 ? 20 : 10),
+                  right: index == state.tvTopRated.length - 1 ? 20 : 10),
               child: InkWell(
-                onTap: (){
-                  StatusBarControl.setHidden(true,animation: StatusBarAnimation.FADE);
-                  context.read<TvBloc>().add(GetTvDetailsEvent(tvId: state.tvTopRated[index].id));
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const TvDetailsScreen()));
-
+                onTap: () {
+                  StatusBarControl.setHidden(true,
+                      animation: StatusBarAnimation.FADE);
+                  context
+                      .read<TvBloc>()
+                      .add(GetTvDetailsEvent(tvId: state.tvTopRated[index].id));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    context.read<TvBloc>().add(
+                        GetTvVideosEvent(tvId: state.tvTopRated[index].id));
+                    return const TvDetailsScreen();
+                  }));
                 },
                 child: Column(
                   children: [
@@ -55,8 +69,7 @@ class TvTopRatedSection extends StatelessWidget {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       width: Scaling.S(140),
                       decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(Scaling.S(8.0)),
+                        borderRadius: BorderRadius.circular(Scaling.S(8.0)),
                         boxShadow: const [
                           BoxShadow(
                             color: Color(0x73000000),
@@ -69,21 +82,19 @@ class TvTopRatedSection extends StatelessWidget {
                         imageUrl: AppConstance.imageCompletePathUrl(
                             path: model.backdropPath!),
                         fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            Shimmer.fromColors(
-                              baseColor: Colors.grey[850]!,
-                              highlightColor: Colors.grey[800]!,
-                              child: Container(
-                                height: Scaling.S(300),
-                                width: Scaling.S(120),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey[200]!,
+                          highlightColor: Colors.grey[400]!,
+                          child: Container(
+                            height: Scaling.S(300),
+                            width: Scaling.S(120),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                        errorWidget: (context, url, error) =>
-                        const Icon(
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
                           Icons.error,
                           color: Colors.white,
                         ),
@@ -111,13 +122,12 @@ class TvTopRatedSection extends StatelessWidget {
                 ),
               ),
             );
-            // TODO: Handle this case.
+          // TODO: Handle this case.
           case RequestsState.error:
             return Container();
             // TODO: Handle this case.
             break;
         }
-
       },
     );
   }

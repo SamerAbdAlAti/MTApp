@@ -9,6 +9,9 @@ part 'gat_tv_popular_use_case.dart';
 
 part 'get_tv_details_use_case.dart';
 
+part 'get_tv_videos_use_cse.dart';
+part 'sesarch_tv_use_case.dart';
+
 class GetTvTopRatedUseCase extends BaseUseCase<List<Tv>, NoParameter> {
   final BaseTvRepository baseTvRepository;
 

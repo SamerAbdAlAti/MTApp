@@ -10,6 +10,11 @@ abstract class BaseTvRepository extends Equatable {
 
   Future<Either<Failure, TvDetails>> getTvDetails({required int tvId});
 
+  Future<Either<Failure, List<TvVideos>>> getTvVideos({required int tvId});
+
+  Future<Either<Failure, List<Tv>>> searchTv({required String query});
+
+
   @override
   List<Object> get props => [];
 }

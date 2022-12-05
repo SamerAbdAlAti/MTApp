@@ -9,9 +9,17 @@ class TvState extends Equatable {
   final RequestsState tvPopularState;
   final String tvPopularMessage;
 
+  final List<Tv> tvSearch;
+  final RequestsState tvSearchState;
+  final String tvSearchMessage;
+
   final TvDetails getTvDetails;
   final RequestsState tvDetailsState;
   final String tvDetailsMessage;
+
+  final List<TvVideos> getTvVideos;
+  final RequestsState tvVideosState;
+  final String tvVideosMessage;
 
   const TvState({
     this.tvTopRated = const [],
@@ -31,6 +39,12 @@ class TvState extends Equatable {
         voteCount: -2.0),
     this.tvDetailsState = RequestsState.loading,
     this.tvDetailsMessage = "",
+    this.getTvVideos = const [],
+    this.tvVideosState = RequestsState.loading,
+    this.tvVideosMessage = '',
+    this.tvSearch = const [],
+    this.tvSearchState = RequestsState.loaded,
+    this.tvSearchMessage = '',
   });
 
   TvState copyWith({
@@ -43,6 +57,12 @@ class TvState extends Equatable {
     TvDetails? getTvDetails,
     RequestsState? tvDetailsState,
     String? tvDetailsMessage,
+    List<TvVideos>? getTvVideos,
+    RequestsState? tvVideosState,
+    String? tvVideosMessage,
+    List<Tv>? tvSearch,
+    RequestsState? tvSearchState,
+    String? tvSearchMessage,
   }) {
     return TvState(
       tvTopRated: tvTopRated ?? this.tvTopRated,
@@ -54,6 +74,12 @@ class TvState extends Equatable {
       getTvDetails: getTvDetails ?? this.getTvDetails,
       tvDetailsMessage: tvDetailsMessage ?? this.tvDetailsMessage,
       tvDetailsState: tvDetailsState ?? this.tvDetailsState,
+      getTvVideos: getTvVideos ?? this.getTvVideos,
+      tvVideosState: tvVideosState ?? this.tvVideosState,
+      tvVideosMessage: tvVideosMessage ?? this.tvVideosMessage,
+      tvSearch: tvSearch ?? this.tvSearch,
+      tvSearchState: tvSearchState ?? this.tvSearchState,
+      tvSearchMessage: tvSearchMessage ?? this.tvSearchMessage,
     );
   }
 
@@ -68,5 +94,11 @@ class TvState extends Equatable {
         getTvDetails,
         tvDetailsState,
         tvDetailsMessage,
+        getTvVideos,
+        tvVideosState,
+        tvVideosMessage,
+        tvSearch,
+        tvSearchState,
+        tvSearchMessage,
       ];
 }

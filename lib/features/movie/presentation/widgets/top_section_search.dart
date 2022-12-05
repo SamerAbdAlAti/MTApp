@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movie/features/movie/presentation/widgets/movie_search/movie_search_screen.dart';
 import 'package:size_builder/size_builder.dart';
 
 class TopSectionSearch extends StatelessWidget {
   final String title;
-  const TopSectionSearch({Key? key, this.title='MOVIES'}) : super(key: key);
+  final VoidCallback onTap;
+  const TopSectionSearch({Key? key, this.title='MOVIES', required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class TopSectionSearch extends StatelessWidget {
           /// Search On Press Home Page
           ///
           IconButton(
-            onPressed: () {},
+            onPressed:onTap,
             icon: SvgPicture.asset(
               "assets/icons/search_icon.svg",
               height: Scaling.S(30),

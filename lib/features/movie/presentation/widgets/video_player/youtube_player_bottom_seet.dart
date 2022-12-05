@@ -21,7 +21,6 @@ class YouTubePlayerBottomSheet extends StatelessWidget {
         UiBloc uiBloc = UiBloc.get(context);
         return BlocBuilder<MovieBloc, MovieState>(
           builder: (context, movieState) {
-            MovieBloc movieBloc = MovieBloc.get(context);
 
             Scaling.scaling(context);
             switch (movieState.movieVideosState) {

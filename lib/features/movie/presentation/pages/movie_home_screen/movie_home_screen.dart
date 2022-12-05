@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie/features/movie/presentation/widgets/movie_search/movie_search_screen.dart';
 
 import 'package:movie/features/movie/presentation/widgets/now_playing_section.dart';
 import 'package:movie/features/movie/presentation/widgets/top_section_search.dart';
@@ -26,7 +27,12 @@ class _MovieHomeScreenState extends State<MovieHomeScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const TopSectionSearch(),
+          TopSectionSearch(onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MovieSearchScreen()));
+          }),
           Expanded(
             child: SingleChildScrollView(
               controller: controller,

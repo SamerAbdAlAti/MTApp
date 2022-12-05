@@ -21,12 +21,23 @@ class GetMovieDetailsEvent extends MovieEvent {
 
 class GetMovieVideosEvent extends MovieEvent {
   final int movieId;
+
   const GetMovieVideosEvent(this.movieId);
 }
 
-
 class GetControllerKeyEvent extends MovieEvent {
   final String movieKey;
+
   const GetControllerKeyEvent(this.movieKey);
 }
 
+class SearchMovieEvent extends MovieEvent {
+  final String query;
+
+  const SearchMovieEvent({
+    required this.query,
+  });
+
+  @override
+  List<Object> get props => [query];
+}

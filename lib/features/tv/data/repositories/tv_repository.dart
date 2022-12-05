@@ -39,4 +39,25 @@ class TvRepository extends BaseTvRepository {
       return Left(ServerFailure(failure.errorMessageModel.statusMessage));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TvVideos>>> getTvVideos(
+      {required int tvId}) async {
+    final result = await baseTvRemoteDataSource.getTvVideos(tvId: tvId);
+    try {
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(ServerFailure(failure.errorMessageModel.statusMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Tv>>> searchTv({required String query}) async {
+    final result = await baseTvRemoteDataSource.searchTv(query: query);
+    try {
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(ServerFailure(failure.errorMessageModel.statusMessage));
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 part 'tv_details.dart';
 part 'tv_production_companies.dart';
+part 'tv_videos.dart';
 
 class Tv extends Equatable {
   final int id;

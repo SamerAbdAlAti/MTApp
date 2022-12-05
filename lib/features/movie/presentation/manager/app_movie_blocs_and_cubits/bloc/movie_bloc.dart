@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/base_movie_use_case/base_movie_use_case.dart';
@@ -22,6 +21,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final GetTopRatedUseCase getTopRatedUseCase;
   final GetMovieDetailsUseCase getMovieDetailsUseCase;
   final GetMovieVideosUseCase getMovieVideosUseCase;
+  final MovieSearchUseCase movieSearchUseCase;
 
   MovieBloc({
     required this.getNowPlayingUseCase,
@@ -29,12 +29,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     required this.getTopRatedUseCase,
     required this.getMovieDetailsUseCase,
     required this.getMovieVideosUseCase,
+    required this.movieSearchUseCase,
   }) : super(const MovieState()) {
     on<GetNowPlayingEvent>(getNowPlayingFunction);
     on<GetTopRatedEvent>(getTopRatedFunction);
     on<GetPopularEvent>(getPopularFunction);
     on<GetMovieDetailsEvent>(getMovieDetailsFunction);
     on<GetMovieVideosEvent>(getMovieVideosFunction);
+    on<SearchMovieEvent>(searchMovieMethod);
   }
 
   @override
@@ -43,8 +45,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     return super.close();
   }
 
-
-
+  TextEditingController controller = TextEditingController();
   final ScrollController popularController = ScrollController();
   final ScrollController nawPlayingController = ScrollController();
 
@@ -136,4 +137,24 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       ));
     });
   }
+
+  Future<void> searchMovieMethod(SearchMovieEvent event, Emitter emit) async {
+    emit(state.copyWith(searchMovieState: RequestsState.loading));
+
+    final result =
+        await movieSearchUseCase(MovieSearchParameter(query: event.query));
+    result.fold((l) {
+      emit(state.copyWith(
+        searchMovieState: RequestsState.error,
+        searchMovieMessage: l.message,
+      ));
+    }, (r) {
+      emit(state.copyWith(
+        searchMovie: r,
+        searchMovieState: RequestsState.loaded,
+      ));
+    });
+  }
+
+
 }

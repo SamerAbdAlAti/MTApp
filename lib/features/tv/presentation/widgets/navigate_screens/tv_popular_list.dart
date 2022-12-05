@@ -18,7 +18,9 @@ class TvPopularList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Scaling.scaling(context);
     return BlocBuilder<TvBloc, TvState>(
+      buildWhen: (c, p) => c.tvPopularState != p.tvPopularState,
       builder: (context, state) {
         return Scaffold(
           body: SafeArea(
@@ -91,11 +93,13 @@ class TvPopularList extends StatelessWidget {
                                     context.read<TvBloc>().add(
                                         GetTvDetailsEvent(
                                             tvId: list[index].id));
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TvDetailsScreen()));
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      context.read<TvBloc>().add(
+                                          GetTvVideosEvent(
+                                              tvId: list[index].id));
+                                      return const TvDetailsScreen();
+                                    }));
                                   },
                                   child: Column(
                                     crossAxisAlignment:

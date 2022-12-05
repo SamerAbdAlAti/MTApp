@@ -9,6 +9,7 @@ abstract class BaseMovieRepository extends Equatable {
   Future<Either<Failure, List<Movie>>> getTopRatedMovie();
 
   Future<Either<Failure, List<Movie>>> getPopularMovie();
+  Future<Either<Failure, List<Movie>>> searchToFindMovie({required String query});
 
   Future<Either<Failure, MovieDetails>> getMovieDetails(int movieID);
 

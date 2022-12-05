@@ -34,6 +34,7 @@ class ServicesLocator {
         getTopRatedUseCase: getIt(),
         getMovieDetailsUseCase: getIt(),
         getMovieVideosUseCase: getIt(),
+        movieSearchUseCase: getIt(),
       ),
     );
 
@@ -51,6 +52,7 @@ class ServicesLocator {
     getIt.registerLazySingleton(() => GetNowPlayingUseCase(getIt()));
     getIt.registerLazySingleton(() => GetPopularUseCase(getIt()));
     getIt.registerLazySingleton(() => GetTopRatedUseCase(getIt()));
+    getIt.registerLazySingleton(() => MovieSearchUseCase(getIt()));
     getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
     getIt.registerLazySingleton(() => GetMovieVideosUseCase(getIt()));
 
@@ -70,12 +72,18 @@ class ServicesLocator {
     getIt.registerLazySingleton(() => GetTvTopRatedUseCase(getIt()));
     getIt.registerLazySingleton(() => GetTvPopularUseCase(getIt()));
     getIt.registerLazySingleton(() => GetTvDetailsUseCase(getIt()));
+    getIt.registerLazySingleton(() => GetTvVideosUseCase(getIt()));
+    getIt.registerLazySingleton(() => SearchTvUseCase(getIt()));
 
     /// Blocs
-    getIt.registerFactory(() => TvBloc(
-          getTvPopularUseCase: getIt(),
-          getTvTopRatedUseCase: getIt(),
-          getTvDetailsUseCase: getIt(),
-        ));
+    getIt.registerFactory(
+      () => TvBloc(
+        getTvPopularUseCase: getIt(),
+        getTvTopRatedUseCase: getIt(),
+        getTvDetailsUseCase: getIt(),
+        getTvVideosUseCase: getIt(),
+        searchTvUseCase: getIt(),
+      ),
+    );
   }
 }
