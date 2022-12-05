@@ -150,9 +150,7 @@ class TvDetailsScreen extends StatelessWidget {
                                     softWrap: false,
                                   ),
                                   const Spacer(),
-                                  SvgPicture.asset(
-                                    "assets/icons/share_icon_details.svg",
-                                  ),
+
                                   SizedBox(
                                     width: Scaling.S(20),
                                   ),

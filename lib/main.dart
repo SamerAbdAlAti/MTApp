@@ -27,20 +27,19 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   OnBoardingsCubit();
 
-if(isFirst_==null){
-  await StatusBarControl.setFullscreen(true);
-  await StatusBarControl.setColor(Colors.white.withOpacity(0.0));
-  await StatusBarControl.setStyle(StatusBarStyle.DARK_CONTENT);
-  await StatusBarControl.setNavigationBarStyle(NavigationBarStyle.DARK);
-}
-else{
-  await StatusBarControl.setFullscreen(false);
-  await StatusBarControl.setColor(
-      Colors.white.withOpacity(0.0));
-  await StatusBarControl.setStyle(
-    StatusBarStyle.DARK_CONTENT,
-  );
-}
+  if (isFirst_ == null) {
+    await StatusBarControl.setFullscreen(true);
+    await StatusBarControl.setColor(Colors.white.withOpacity(0.0));
+    await StatusBarControl.setStyle(StatusBarStyle.DARK_CONTENT);
+    await StatusBarControl.setNavigationBarStyle(NavigationBarStyle.DARK);
+  } else {
+    await StatusBarControl.setFullscreen(false);
+    await StatusBarControl.setColor(Colors.white.withOpacity(0.0));
+    await StatusBarControl.setNavigationBarStyle(NavigationBarStyle.DARK);
+    await StatusBarControl.setStyle(
+      StatusBarStyle.DARK_CONTENT,
+    );
+  }
   runApp(MyApp(
     isFirst: isFirst_,
   ));
