@@ -7,7 +7,6 @@ The application also allows searching for movies and TV shows, and the applicati
 <h4><h/4>
 
 <img src="https://user-images.githubusercontent.com/106412464/205674072-102e1d07-3b06-4ff5-b747-34c396daa17c.png" width="200"/>
-<img src="https://user-images.githubusercontent.com/106412464/205675461-1bd0b4e3-727d-4852-a6e8-e4a90f715c94.png" width="200"/>
 <img src="https://user-images.githubusercontent.com/106412464/205675576-b027fb3c-d0d9-4c9a-8fdc-fe44c59f8263.png" width="200"/>
 <img src="https://user-images.githubusercontent.com/106412464/205676047-b4bfd776-2e46-45a3-903f-4abbbca190dd.png" width="200"/>
 <img src="https://user-images.githubusercontent.com/106412464/205677898-3900a0e1-08ee-468d-9175-f76b736c14b6.gif" width="200"/>
